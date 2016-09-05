@@ -42,8 +42,8 @@ def concat_csvs(csvfile_list,indir,csvoutname):
 
 def dict2csv(indict,ofile,odir,keyname='Key',valuename='Value'):
     #Treats dict values as a single entry, except
-    #   for 1-D lists, which are added itemwise
-    #   to the csv row.
+    #   for list-values (i.e. {k:[v1,v2,v3...]}), 
+    #   whose values are added itemwise to the csv row.
     _header=[str(keyname),str(valuename)]
     curdir=os.getcwd()
     os.chdir(odir)
