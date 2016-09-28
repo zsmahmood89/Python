@@ -41,10 +41,25 @@ def concat_csvs(csvfile_list,indir,csvoutname):
         return csvfile_list[0]
 
 def dict2csv(indict,ofile,odir,keyname='Key',valuename='Value'):
-    #Treats dict values as a single entry, except
-    #   for list-values (i.e. {k:[v1,v2,v3...]}), 
-    #   whose values are added itemwise to the csv row.
-    _header=[str(keyname),str(valuename)]
+    #Maximum depth of keys and values is 1-dimension. For example,
+    #(2011,482,2):[200,600] is written as row [2011,482,2,200,600].
+    #If there's more depth, you'll just get that list as string in your row.
+    #Note that lists and tuples are treated the same, in that
+    #elements are written out itemwise.
+    if type(keyname)==str:
+    	_keyhead=[keyname]
+    elif type(keyname)==list:
+    	_keyhead=keyname
+    else:
+    	sys.exit('for dict2csv, please pass a string or list for your key/val names')
+    if type(valuename)==str:
+    	_valuehead=[valuename]
+    elif type(valuename)==list:
+    	_valuehead=valuename
+    else:
+    	sys.exit('for dict2csv, please pass a string or list for your key/val names')
+
+    _header=_keyhead+_valuehead
     curdir=os.getcwd()
     os.chdir(odir)
     with open(ofile,'w') as output:
@@ -52,10 +67,18 @@ def dict2csv(indict,ofile,odir,keyname='Key',valuename='Value'):
         writer.writerow(_header)
     
     for k,v in indict.items():
-        _a=[k]
-        if type(v)==list:
+        _a=[]
+        if type(k)==list or type(k)==tuple:
+        	for _i in k:
+        		_a.append(_i)
+       	else:
+       		_a.append(k)
+        if type(v)==list or type(v)==tuple:
             for _i in v:
                 _a.append(_i)
+        else:
+        	_a.append(v)
+ 
         with open(ofile,'a') as output2:
             writer=csv.writer(output2)
             writer.writerow(_a)
