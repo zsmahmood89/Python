@@ -138,5 +138,5 @@ def UCDPRegions(_ccode,regname=False):
     if regname==False:
         return(_reg)
     else:
-        _rfin=[_reg,_rname)]
+        _rfin=[_reg,_rname]
         return(_rfin)
