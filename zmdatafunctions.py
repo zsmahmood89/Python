@@ -1,5 +1,5 @@
 #! usr/bin/env python
-import os,csv
+import os,csv,sys
 from time import strptime
 
 def make_sipri_dict(siprifile,sipridir,sipridict):
@@ -108,3 +108,35 @@ def date_dmy_check(cur_list_dmy,start_list_dmy,end_list_dmy,yrprefix=False):
     elif cy==ey and cm==em and cd>ed:
         ret=0
     return ret
+
+def UCDPRegions(_ccode,regname=False):
+    ########
+    #Region information from
+    #   "UCDP Armed Conflict Dataset Codebook"
+    #       2016. v4-2016. page 13.
+    #Region codes 1-5:
+    ##Europe; ME; Asia; Af; Amer.
+    ##(200-395); (630-698); (700-900); (400-625); (2-265)
+    #########
+    if 2<=int(_ccode)<=165:
+        _reg=5
+        _rname="Americas"
+    elif 200<=int(_ccode)<=395:
+        _reg=1
+        _rname="Europe"
+    elif 400<=int(_ccode)<=625:
+        _reg=4
+        _rname="Africa"
+    elif 630<=int(_ccode)<=698:
+        _reg=2
+        _rname="Middle East"
+    elif 700<=int(_ccode)<=990:
+        _reg=3
+        _rname="Asia"
+    else:
+        sys.exit("Your region doesn't fall in bounds")
+    if regname==False:
+        return(_reg)
+    else:
+        _rfin=[_reg,_rname)]
+        return(_rfin)
