@@ -116,27 +116,37 @@ def UCDPRegions(_ccode,regname=False):
     #       2016. v4-2016. page 13.
     #Region codes 1-5:
     ##Europe; ME; Asia; Af; Amer.
-    ##(200-395); (630-698); (700-900); (400-625); (2-265)
+    ##(200-395); (630-698); (700-900); (400-626); (2-265)
+    ###This includes South Sudan, ccode 626.
     #########
-    if 2<=int(_ccode)<=165:
-        _reg=5
-        _rname="Americas"
-    elif 200<=int(_ccode)<=395:
-        _reg=1
-        _rname="Europe"
-    elif 400<=int(_ccode)<=625:
-        _reg=4
-        _rname="Africa"
-    elif 630<=int(_ccode)<=698:
-        _reg=2
-        _rname="Middle East"
-    elif 700<=int(_ccode)<=990:
-        _reg=3
-        _rname="Asia"
-    else:
-        sys.exit("Your region doesn't fall in bounds")
-    if regname==False:
-        return(_reg)
-    else:
-        _rfin=[_reg,_rname]
-        return(_rfin)
+    try:
+        if 2<=int(_ccode)<=165:
+            _reg=5
+            _rname="Americas"
+        elif 200<=int(_ccode)<=395:
+            _reg=1
+            _rname="Europe"
+        elif 400<=int(_ccode)<=626:
+            _reg=4
+            _rname="Africa"
+        elif 630<=int(_ccode)<=698:
+            _reg=2
+            _rname="Middle East"
+        elif 700<=int(_ccode)<=990:
+            _reg=3
+            _rname="Asia"
+        else:
+            sys.exit("Your region doesn't fall in bounds")
+
+        if regname==False:
+            return(_reg)
+        else:
+            _rfin=[_reg,_rname]
+            return(_rfin)
+    except ValueError:
+        if regname==False:
+            _reg="NA"
+            return(_reg)
+        else:
+            _rfin=["NA","NA"]
+            return(_rfin)
