@@ -9,11 +9,14 @@ def writerow(row,ofile,odir,aw):
 		writer.writerow(row)
 	os.chdir(curdir)
 
-def normalize_row(row,lenorig):
+def normalize_row(row,lenorig,pre=False):
 	if len(row)<lenorig:
 		diff=lenorig-len(row)
 		for i in range(0,diff):
-			row.append('')
+            if pre==False:
+                row.append('')
+            elif pre==True:
+                row.insert(0,'')
 	return row
 
 def concat_csvs(csvfile_list,indir,csvoutname):
