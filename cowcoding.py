@@ -54,7 +54,7 @@ with open(cow_source,'rb') as c:
     reader.next()
     for row in reader:
         ccode=int(row[1])
-        statename=row[2]
+        statename=row[2].lower()
         cowdict.update({statename:ccode})
 
 #Define functions for cow coding
@@ -80,17 +80,17 @@ def label_list(label,cowdict):
         ccodelist.append(cowdict[label])
     else:
         for k,v in cowdict.iteritems():
-            key=str(k)
+            key=str(k).lower()
             value=int(v)
-            break
+            #break
             cowvalue=fuzz.token_set_ratio(label,key)
             if cowvalue>75:
                 ccodelist.append(value)
             if cowvalue==100:
                 perflist.append(value)
-        if len(perflist)==1:
+        if len(list(set(perflist)))==1:
             ccodelist=perflist
-    return ccodelist
+    return list(set(ccodelist))
 
 #Cow Coding: First read of your input     
 errs={}
@@ -113,7 +113,7 @@ with open(infile,'rb') as f:
         #iterate over rows
         country_label=row[labelcol]
         country_label=country_label.strip()
-        clist=label_list(country_label,cowdict)
+        clist=label_list(country_label.lower(),cowdict)
         try:
             row[cowcol]=clist[0]
         except IndexError:
@@ -153,7 +153,7 @@ def update_errdict(errfile,errdir,cowdict):
             country=row[0]
             ccode=row[2]
             if ccode:
-                cowdict[country]=int(ccode)
+                cowdict[country]=ccode
     os.chdir(curdir)
     return cowdict
 
@@ -206,7 +206,7 @@ while len(errs)>0:
                     else:
                         pass
                 else:
-                    cowdict[country_label]=int(clist[0])
+                    cowdict[country_label]=clist[0]
                     pass
                     
     elif errs_edited=="done":
@@ -218,8 +218,3 @@ while len(errs)>0:
         continue
         
 print "fin!"        
-        
-                
-                
-                
-            

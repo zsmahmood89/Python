@@ -4,9 +4,9 @@
 
 This file allows me to country-code csv files using Python.
 
-My goal with this file was to allow for user-flexibility. The script will cowcode only using the inputted source file. The remaining errors will be exported as a CSV file for you (the user) to update manually. After you have updated it, you can simply input "yes" and the code will re-run to update with your additions. This interactive approach is useful when you have noisy data where you want to code as much as you can while minimizing false-positives. 
+My goal with this file was to allow for user-flexibility. The script will cowcode only using the inputted source file. The remaining errors will be exported as a CSV file for you (the user) to update manually. It will include suggestions for those which it suspects to know. After you have updated it, you can simply input "yes" and the code will re-run to update with your additions. This interactive approach is useful when you have noisy data where you want to code as much as you can while minimizing false-positives. 
 
-This script will use the source file (COWsource.csv) included to cow-code. This file is generated almost directly from the COW data originally on the website. You can simply add additional rows identifying new spellings as you see fit.
+This script will use the source file (COWsource.csv) included to cow-code. This file is generated almost directly from the COW data originally on the website. You can simply add additional rows identifying new spellings as you see fit. I'll be updating it periodically for non-controversial cases. For example, I will not identify "Congo" in the source file with "Congo-Brazzaville" even though the vast majority of the time I've come across it, this link is correct. The conservative approach gives the user a final say about identifying labels.
 
 Files:
 	cowcoding.py
