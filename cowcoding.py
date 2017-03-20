@@ -83,7 +83,7 @@ def label_list(label,cowdict):
             key=str(k).lower()
             value=int(v)
             #break
-            cowvalue=fuzz.token_set_ratio(label,key)
+            cowvalue=fuzz.token_set_ratio(label.lower(),key)
             if cowvalue>75:
                 ccodelist.append(value)
             if cowvalue==100:
@@ -113,7 +113,7 @@ with open(infile,'rb') as f:
         #iterate over rows
         country_label=row[labelcol]
         country_label=country_label.strip()
-        clist=label_list(country_label.lower(),cowdict)
+        clist=label_list(country_label,cowdict)
         try:
             row[cowcol]=clist[0]
         except IndexError:
@@ -158,7 +158,7 @@ def update_errdict(errfile,errdir,cowdict):
     return cowdict
 
 while len(errs)>0:
-    errs_edited=input("Edit error file. Remember to use column 3, the first BLANK column. Type 'yes' (WITH QUOTES) when done. Type 'done' (WITH QUOTES) when your file is done (e.g. errors are not countries)___")
+    errs_edited=str(input("Edit error file. Remember to use column 3, the first BLANK column. Type 'yes' (WITH QUOTES) when done. Type 'done' (WITH QUOTES) when your file is done (e.g. errors are not countries)___"))
     
     if errs_edited=="yes":
         
@@ -215,6 +215,7 @@ while len(errs)>0:
         sys.exit("You have exited! Delete the generated files prior to restarting")
         
     else:
+        print("Type 'yes' to continue, or 'done' to exit.")
         continue
         
 print "fin!"        
