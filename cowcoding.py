@@ -163,9 +163,9 @@ def update_errdict(errfile,errdir,cowdict):
     return cowdict
 
 while len(errs)>0:
-    errs_edited=str(input("Edit error file. Remember to use column 3, the first BLANK column. Type 'yes' (WITH QUOTES) when done. Type 'done' (WITH QUOTES) when your file is done (e.g. errors are not countries)___"))
+    errs_edited=str(raw_input("Edit error file. Remember to use column 3, the first BLANK column. Type yes when done. Type done when your file is done (e.g. errors are not countries)___"))
     
-    if errs_edited=="yes":
+    if errs_edited.lower()=="yes" or errs_edited.lower()=="'yes'" or errs_edited.lower()=='''"yes"''':
         
         os.chdir(outdir)
         #rewrite that output file
@@ -214,13 +214,15 @@ while len(errs)>0:
                     cowdict[country_label]=clist[0]
                     pass
                     
-    elif errs_edited=="done":
+    elif errs_edited.lower()=="done" or errs_edited.lower()=="'done'" or errs_edited.lower()=='''"done"''':
         print ""
         print ""
         sys.exit("You have exited! Delete the generated files prior to restarting")
         
     else:
-        print("Type 'yes' to continue, or 'done' to exit.")
+        print ""
+        print "Type 'yes' to continue, or 'done' to exit."
+        print ""
         continue
         
 print "fin!"        
