@@ -28,6 +28,9 @@ errfile="check_cow_errors.csv"
 #Does your file have a header/first row to skip (I'll write it into the new file still). Default = True.
 file_header=True
 
+#Should I automatically treat INTEGER labels as the "actual" cow code? Default is False
+int_as_actual=False
+
 
 #############################
 #NO MORE USER INPUTS BEYOND THIS POINT
@@ -56,6 +59,8 @@ with open(cow_source,'rb') as c:
         ccode=int(row[1])
         statename=row[2].lower()
         cowdict.update({statename:ccode})
+        if int_as_actual==True:
+            cowdict.update({str(ccode):ccode})
 
 #Define functions for cow coding
 def writerow(currow,ofile,odir,aw):
