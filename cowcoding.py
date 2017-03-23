@@ -9,7 +9,7 @@ indir=       ##################
 outdir=      ##################
 
 #Filenames
-cow_source='COW Country Codes.csv'
+cow_source='COWsource.csv'
 infile=     #######################
 outfile=    #######################
 
