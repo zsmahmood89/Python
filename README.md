@@ -16,3 +16,6 @@ Files:
 
 I keep my pet functions here. They're stuff I use a lot in python, such as Region coding for COW; writing a CSV row to a file; making month numbers or checking whether a date falls within a boundary; etc. Really, I don't recommend downloading and using them since these kinds of functions are best written by the end-user themselves (so you can troubleshoot as you see fit). If you do use them and there's a problem, let me know.
 
+Files: 
+	zmcsvfunctions.py
+	zmdatafunctions.py
