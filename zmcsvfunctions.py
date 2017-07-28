@@ -2,14 +2,18 @@
 import os,csv,sys
 
 def writerow(row,ofile,odir,aw):
-	curdir=os.getcwd()
-	os.chdir(odir)
-	with open(ofile,aw) as output:
-		writer=csv.writer(output)
-		writer.writerow(row)
-	os.chdir(curdir)
+    '''This function writes a row to file'''
+    curdir=os.getcwd()
+    os.chdir(odir)
+    with open(ofile,aw) as output:
+    	writer=csv.writer(output)
+    	writer.writerow(row)
+    os.chdir(curdir)
 
 def normalize_row(row,lenorig,pre=False):
+    '''This function normalizes a row
+    to a particular length, either adding
+    spaces before (pre) or after.'''
     if len(row)<lenorig:
         diff=lenorig-len(row)
         for i in range(0,diff):
@@ -20,6 +24,8 @@ def normalize_row(row,lenorig,pre=False):
     return row
 
 def concat_csvs(csvfile_list,indir,csvoutname):
+    '''This function concatenates a list of csv files into
+    a single csv file'''
     if len(csvfile_list)>1:
         curdir=os.getcwd()
         os.chdir(indir)
@@ -42,11 +48,11 @@ def concat_csvs(csvfile_list,indir,csvoutname):
         return csvfile_list[0]
 
 def dict2csv(indict,ofile,odir,keyname='Key',valuename='Value',out_sort_key=False):
-    #Maximum depth of keys and values is 1-dimension. For example,
-    #(2011,482,2):[200,600] is written as row [2011,482,2,200,600].
-    #If there's more depth, you'll just get that list as string in your row.
-    #Note that lists and tuples are treated the same, in that
-    #elements are written out itemwise.
+    '''Maximum depth of keys and values is 1-dimension. For example,
+    (2011,482,2):[200,600] is written as row [2011,482,2,200,600].
+    If there's more depth, you'll just get that list as string in your row.
+    Note that lists and tuples are treated the same, in that
+    elements are written out itemwise.'''
     if type(keyname)==str:
         _keyhead=[keyname]
     elif type(keyname)==list:
@@ -109,3 +115,39 @@ def dict2csv(indict,ofile,odir,keyname='Key',valuename='Value',out_sort_key=Fals
             with open(ofile,'a') as output2:
                 writer=csv.writer(output2)
                 writer.writerow(_fin)
+
+
+def csv2dict(infile,indir,keylen=1,valastuple=False,header=1):
+    '''This function takes a csv file and converts it to a dictionary.
+    Each row should be composed of keys and values.
+
+    If the key is a tuple,
+    specify a length greater than k=1. This will convert the first k
+    elements of the row into a tuple-key, and use the remaining rows
+    to define a value as a list. 
+
+    If you want to, instead, define the value
+    as a tuple, specify "valastuple=True". You cannot have a tuple
+    with a single value in it.'''
+
+    _outdict={}
+    _curdir=os.getcwd()
+    os.chdir(indir)
+    with open(infile,'r') as _f:
+        _reader=csv.reader(_f)
+        if header==1:
+            next(_reader)
+        for _row in _reader:
+            _currow=_row.copy()
+            if keylen>1:
+                _key=tuple(_currow[0:keylen])
+            elif keylen==1:
+                _key=_currow[0]
+            _val=[_v for _v in _currow[keylen:] if _v]
+            if len(_val)==1:
+                _val=_val[0]
+            elif valastuple==True:
+                _val=tuple(val)
+            _outdict[_key]=_val
+    os.chdir(_curdir)
+    return(_outdict)  

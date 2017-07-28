@@ -3,6 +3,9 @@ import os,csv,sys
 from time import strptime
 
 def make_sipri_dict(siprifile,sipridir,sipridict):
+    '''Don't use this function anymore. It converts a 
+    SIPRI file into a dictionary, but I don't think
+    that's useful. I keep it here for legacy purposes.'''
     curdir=os.getcwd()
     os.chdir(sipridir)
     counter=0
@@ -40,6 +43,8 @@ def make_sipri_dict(siprifile,sipridir,sipridict):
     return sipridict
 
 def cannedmonthnum(month_str):
+    '''Returns a month number for a string.
+    If not possible, it'll return 0.'''
     try:
         month_no=strptime(month_str,'%b').tm_mon
     except ValueError:
@@ -50,7 +55,7 @@ def cannedmonthnum(month_str):
     return month_no
 
 def date_dmy_check(cur_list_dmy,start_list_dmy,end_list_dmy,yrprefix=False):
-    #REQUIRES a DMY. Just choose boundaries yourself if aggregating.
+    '''REQUIRES a DMY. Just choose boundaries yourself if aggregating.'''
     sd=int(start_list_dmy[0])
     ed=int(end_list_dmy[0])
     cd=int(cur_list_dmy[0])
@@ -110,15 +115,15 @@ def date_dmy_check(cur_list_dmy,start_list_dmy,end_list_dmy,yrprefix=False):
     return ret
 
 def UCDPRegions(_ccode,regname=False):
-    ########
-    #Region information from
-    #   "UCDP Armed Conflict Dataset Codebook"
-    #       2016. v4-2016. page 13.
-    #Region codes 1-5:
-    ##Europe; ME; Asia; Af; Amer.
-    ##(200-395); (630-698); (700-900); (400-626); (2-265)
-    ###This includes South Sudan, ccode 626.
-    #########
+    '''
+    Region information from
+      "UCDP Armed Conflict Dataset Codebook"
+          2016. v4-2016. page 13.
+    Region codes 1-5:
+    #Europe; ME; Asia; Af; Amer.
+    #(200-395); (630-698); (700-900); (400-626); (2-265)
+    ##This includes South Sudan, ccode 626.
+    '''
     try:
         if 2<=int(_ccode)<=165:
             _reg=5
